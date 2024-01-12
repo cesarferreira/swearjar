@@ -28,10 +28,22 @@ def find_swear_words(file_path, swear_words):
         print(f'{GREEN}{matches_found} {"fix" if matches_found == 1 else "fixes"} made in {os.path.basename(file_path)}.{ENDC}')
     return matches_found
 
-def scan_directory(directory, swear_words):
+def scan_directory(directory, swear_words, ignored_dirs=None, ignored_file_types=None):
+    if ignored_dirs is None:
+        ignored_dirs = ['.git', '.dart_tool', '.idea', '.vscode', 'build', 'node_modules', 'venv', 'dist']
+    if ignored_file_types is None:
+        ignored_file_types = ['.zip', '.rar', '.ipa', '.mobileprovision']
+
     total_matches = 0
+
     for root, _, files in os.walk(directory):
+        if any(ignored_dir in root for ignored_dir in ignored_dirs):
+            continue
+
         for file in files:
+            if any(file.endswith(file_type) for file_type in ignored_file_types):
+                continue
+
             file_path = os.path.join(root, file)
             matches_found = find_swear_words(file_path, swear_words)
             total_matches += matches_found
