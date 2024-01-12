@@ -22,31 +22,22 @@ def find_swear_words(file_path, swear_words):
             if swear_word in line.lower():
                 matches_found += 1
                 highlighted_line = re.sub(f'({swear_word})', RED + BOLD + r'\1' + ENDC, line, flags=re.IGNORECASE)
-                print(f'\n{CYAN}{file_path}{ENDC}:{BOLD}{line_number}{ENDC}: {highlighted_line.strip()}')
+                print(f'{CYAN}{file_path}{ENDC}:{BOLD}{line_number}{ENDC}: {highlighted_line.strip()}')
 
     if matches_found:
-        print(f'  {GREEN}{matches_found} {"fix" if matches_found == 1 else "fixes"} made in {os.path.basename(file_path)}.{ENDC}')
+        print(f'{GREEN}{matches_found} {"fix" if matches_found == 1 else "fixes"} made in {os.path.basename(file_path)}.{ENDC}')
     return matches_found
 
-def scan_directory(directory, swear_words, ignored_dirs=None, ignored_file_types=None):
-    if ignored_dirs is None:
-        ignored_dirs = ['.git', '.dart_tool', '.idea', '.vscode', 'build', 'node_modules', 'venv']
-    if ignored_file_types is None:
-        ignored_file_types = ['.zip', '.rar', '.ipa', '.mobileprovision']
-
+def scan_directory(directory, swear_words):
     total_matches = 0
     for root, _, files in os.walk(directory):
-        if any(ignored_dir in root for ignored_dir in ignored_dirs):
-            continue
         for file in files:
-            if any(file.endswith(file_type) for file_type in ignored_file_types):
-                continue
             file_path = os.path.join(root, file)
             matches_found = find_swear_words(file_path, swear_words)
             total_matches += matches_found
 
     if total_matches:
-        print(f'\n{BOLD}{total_matches} offenders made in total.{ENDC}')
+        print(f'{BOLD}{total_matches} fixes made in total.{ENDC}')
 
 def main():
     swear_words_file = 'swear_words.txt'  # Assumes this file is in the same directory as the script
