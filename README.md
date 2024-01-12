@@ -17,7 +17,7 @@
 - Recursive directory scanning
 - Case-insensitive swear word matching
 - Highlighting of swear words within the text
-- Ability to command+click to the offending line
+- Ability to command+click the offending line
 - Summary of findings with counts per file and total
 - Ability to ignore certain directories and file types
 
