@@ -18,8 +18,8 @@ def find_swear_words(file_path, swear_words):
 def scan_directory(directory, swear_words):
     for root, _, files in os.walk(directory):
         for file in files:
-            if not file.endswith('.py'):  # Skip non-Python files
-                continue
+            # if not file.endswith('.py'):  # Skip non-Python files
+            #     continue
             find_swear_words(os.path.join(root, file), swear_words)
 
 def main():
