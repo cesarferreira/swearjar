@@ -22,10 +22,11 @@ def find_swear_words(file_path, swear_words):
             if swear_word in line.lower():
                 matches_found += 1
                 highlighted_line = re.sub(f'({swear_word})', RED + BOLD + r'\1' + ENDC, line, flags=re.IGNORECASE)
-                print(f'{CYAN}{file_path}{ENDC}:{BOLD}{line_number}{ENDC}: {highlighted_line.strip()}')
+                relative_path = os.path.relpath(file_path, start='.')
+                print(f'{CYAN}{relative_path}{ENDC}:{BOLD}{line_number}{ENDC}: {highlighted_line.strip()}')
 
     if matches_found:
-        print(f'{GREEN}{matches_found} {"fix" if matches_found == 1 else "fixes"} made in {os.path.basename(file_path)}.{ENDC}')
+        print(f'\n  {GREEN}{matches_found} {"offender" if matches_found == 1 else "offenders"} found in {os.path.basename(file_path)}.{ENDC}\n')
     return matches_found
 
 def scan_directory(directory, swear_words, ignored_dirs=None, ignored_file_types=None):
@@ -49,7 +50,7 @@ def scan_directory(directory, swear_words, ignored_dirs=None, ignored_file_types
             total_matches += matches_found
 
     if total_matches:
-        print(f'{BOLD}{total_matches} fixes made in total.{ENDC}')
+        print(f'  {BOLD}{total_matches} offenders found in total.{ENDC}')
 
 def main():
     swear_words_file = 'swear_words.txt'  # Assumes this file is in the same directory as the script
