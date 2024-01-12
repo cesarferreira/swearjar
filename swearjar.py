@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 
 # ANSI color codes for formatting
 RED = '\033[91m'
@@ -7,6 +8,19 @@ ENDC = '\033[0m'
 BOLD = '\033[1m'
 CYAN = '\033[96m'
 GREEN = '\033[92m'
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    if getattr(sys, 'frozen', False):
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.abspath(".")
+
+    full_path = os.path.join(base_path, relative_path)
+    # print(f"Resolved path: {full_path}")
+    # print(f"Does file exist: {os.path.exists(full_path)}")
+    return full_path
+
 
 def load_swear_words(file_path):
     with open(file_path, 'r') as file:
@@ -29,15 +43,16 @@ def find_swear_words(file_path, swear_words):
         print(f'\n  {GREEN}{matches_found} {"offender" if matches_found == 1 else "offenders"} found in {os.path.basename(file_path)}.{ENDC}\n')
     return matches_found
 
-def scan_directory(directory, swear_words, ignored_dirs_file='resources/ignored_dirs.txt', ignored_file_types_file='resources/ignored_file_types.txt'):
+def scan_directory(directory, swear_words):
+    ignored_dirs_file = resource_path('resources/ignored_dirs.txt')
+    ignored_file_types_file = resource_path('resources/ignored_file_types.txt')
+    
     with open(ignored_dirs_file, 'r') as f:
         ignored_dirs = [line.strip() for line in f]
     with open(ignored_file_types_file, 'r') as f:
         ignored_file_types = [line.strip() for line in f]
 
-    # rest of your code
     total_matches = 0
-
     for root, _, files in os.walk(directory):
         if any(ignored_dir in root for ignored_dir in ignored_dirs):
             continue
@@ -54,16 +69,14 @@ def scan_directory(directory, swear_words, ignored_dirs_file='resources/ignored_
         print(f'{BOLD}{total_matches} offenders found in total.{ENDC}')
 
 def main():
-    swear_words_file = 'resources/swear_words.txt' 
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    swear_words_path = os.path.join(script_dir, swear_words_file)
-    swear_words = load_swear_words(swear_words_path)
+    swear_words_file = resource_path('resources/swear_words.txt')
+    swear_words = load_swear_words(swear_words_file)
     
     if not swear_words:
         print(f"No swear words loaded from {swear_words_file}. Please check the file.")
         return
 
-    scan_directory('.', swear_words, ignored_dirs_file=os.path.join(script_dir, 'resources/ignored_dirs.txt'), ignored_file_types_file=os.path.join(script_dir, 'resources/ignored_file_types.txt'))
+    scan_directory('.', swear_words)
 
 if __name__ == "__main__":
     main()
