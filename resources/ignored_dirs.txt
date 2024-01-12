@@ -7,3 +7,5 @@ node_modules
 venv
 dist
 Pods
+.android
+.gradle

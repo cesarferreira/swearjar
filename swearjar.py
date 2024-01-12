@@ -1,6 +1,9 @@
 import os
 import re
 import sys
+# from yaspin import yaspin
+# import random
+# import time
 
 # ANSI color codes for formatting
 RED = '\033[91m'
@@ -9,17 +12,23 @@ BOLD = '\033[1m'
 CYAN = '\033[96m'
 GREEN = '\033[92m'
 
+# Support all basic termcolor text colors
+colors = ("red", "green", "yellow", "blue", "magenta", "cyan", "white")
+# List of spinners
+spinners = ['dots', 'dots2', 'dots3', 'dots4', 'dots5', 'dots6', 'dots7', 'dots8', 'dots9', 'dots10', 'dots11', 'dots12']
+
+
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     if getattr(sys, 'frozen', False):
         base_path = sys._MEIPASS
     else:
-        base_path = os.path.abspath(".")
+        base_path = os.path.dirname(os.path.abspath(__file__))
 
-    full_path = os.path.join(base_path, relative_path)
+    # full_path = os.path.join(base_path, relative_path)
     # print(f"Resolved path: {full_path}")
     # print(f"Does file exist: {os.path.exists(full_path)}")
-    return full_path
+    return os.path.join(base_path, relative_path)
 
 
 def load_swear_words(file_path):
@@ -40,7 +49,7 @@ def find_swear_words(file_path, swear_words):
                 print(f'{CYAN}{relative_path}{ENDC}:{BOLD}{line_number}{ENDC}: {highlighted_line.strip()}')
 
     if matches_found:
-        print(f'\n  {GREEN}{matches_found} {"offender" if matches_found == 1 else "offenders"} found in {os.path.basename(file_path)}.{ENDC}\n')
+        print(f'\n  {GREEN}{matches_found} {"offender" if matches_found == 1 else "offenders"} found in {os.path.basename(file_path)}{ENDC}\n')
     return matches_found
 
 def scan_directory(directory, swear_words):
@@ -53,6 +62,7 @@ def scan_directory(directory, swear_words):
         ignored_file_types = [line.strip() for line in f]
 
     total_matches = 0
+    # with yaspin() as sp:
     for root, _, files in os.walk(directory):
         if any(ignored_dir in root for ignored_dir in ignored_dirs):
             continue
@@ -64,9 +74,12 @@ def scan_directory(directory, swear_words):
             file_path = os.path.join(root, file)
             matches_found = find_swear_words(file_path, swear_words)
             total_matches += matches_found
+            # color = random.choice(colors)
+            # spinner = random.choice(spinners)
+            # sp.spinner, sp.color, sp.text = spinner, color, f"Scanning {root}"
 
     if total_matches:
-        print(f'{BOLD}{total_matches} offenders found in total.{ENDC}')
+        print(f'{BOLD}{total_matches} offenders found in total{ENDC}')
 
 def main():
     swear_words_file = resource_path('resources/swear_words.txt')
