@@ -1,4 +1,3 @@
-<p align="center"><img width="100%"src="assets/screenshot.png"></p>
 <h1 align="center">SwearJar</h1>
 <p align="center">⚡ Static analysis tool that scans your code for swear words</p>
 <!-- <p align="center">
@@ -9,6 +8,7 @@
 </p> -->
 
 
+<p align="center"><img width="100%"src="assets/screenshot.png"></p>
 
 <!-- > Static analysis tool that scans files for swear words. It checks all files within the directory it's run from and all subdirectories for any matches against a predefined list of swear words. -->
 
