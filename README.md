@@ -1,4 +1,4 @@
-<p align="center"><a href="https://github.com/cesarferreira/drone" target="_blank"><img width="200"src="assets/screenshot.png"></a></p>
+<p align="center"><img width="100%"src="assets/screenshot.png"></p>
 <h1 align="center">SwearJar</h1>
 <p align="center">Static analysis tool that scans your code for swear words</p>
 <!-- <p align="center">
@@ -17,6 +17,7 @@
 - Recursive directory scanning
 - Case-insensitive swear word matching
 - Highlighting of swear words within the text
+- Ability to command+click to the offending line
 - Summary of findings with counts per file and total
 - Ability to ignore certain directories and file types
 
