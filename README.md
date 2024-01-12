@@ -1,6 +1,16 @@
-# Swear Word Detection Tool
+<p align="center"><a href="https://github.com/cesarferreira/drone" target="_blank"><img width="200"src="assets/screenshot.png"></a></p>
+<h1 align="center">SwearJar</h1>
+<p align="center">Static analysis tool that scans your code for swear words</p>
+<!-- <p align="center">
+  <a href="https://travis-ci.org/cesarferreira/drone"><img src="https://travis-ci.org/cesarferreira/drone.svg?branch=master" alt="Build Status"></a>
+  <a href="https://www.npmjs.com/package/drone"><img src="https://img.shields.io/npm/dt/drone.svg" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/drone"><img src="https://img.shields.io/npm/v/drone.svg" alt="npm"></a>
+  <a href="https://github.com/cesarferreira/drone/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+</p> -->
 
-This Python script provides a simple static analysis tool that scans files for swear words. It checks all files within the directory it's run from and all subdirectories for any matches against a predefined list of swear words.
+
+
+<!-- > Static analysis tool that scans files for swear words. It checks all files within the directory it's run from and all subdirectories for any matches against a predefined list of swear words. -->
 
 ## Features
 
@@ -35,3 +45,9 @@ To install this tool on your system, follow these steps:
 
 - Python 3.x
 - Terminal that supports ANSI escape sequences for colored output
+
+## Created by
+[Cesar Ferreira](https://cesarferreira.com)
+
+## License
+MIT © [Cesar Ferreira](http://cesarferreira.com)

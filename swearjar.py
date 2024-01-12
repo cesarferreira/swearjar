@@ -82,6 +82,7 @@ def scan_directory(directory, swear_words):
         print(f'{BOLD}{total_matches} offenders found in total{ENDC}')
 
 def main():
+    print('')
     swear_words_file = resource_path('resources/swear_words.txt')
     swear_words = load_swear_words(swear_words_file)
     
