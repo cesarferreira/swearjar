@@ -1,2 +1,2 @@
-print('fuck shit cunt')
+print('fuck shit cunt Piss MOTHERFUCKER')
 shit = 'some string'
