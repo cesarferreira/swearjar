@@ -23,7 +23,9 @@ def scan_directory(directory, swear_words):
             find_swear_words(os.path.join(root, file), swear_words)
 
 def main():
-    swear_words_file = 'swear_words.txt'  # Update this path if needed
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    swear_words_file = os.path.join(script_dir, 'swear_words.txt')
+    
     swear_words = load_swear_words(swear_words_file)
     scan_directory('.', swear_words)
 
