@@ -29,12 +29,13 @@ def find_swear_words(file_path, swear_words):
         print(f'\n  {GREEN}{matches_found} {"offender" if matches_found == 1 else "offenders"} found in {os.path.basename(file_path)}.{ENDC}\n')
     return matches_found
 
-def scan_directory(directory, swear_words, ignored_dirs=None, ignored_file_types=None):
-    if ignored_dirs is None:
-        ignored_dirs = ['.git', '.dart_tool', '.idea', '.vscode', 'build', 'node_modules', 'venv', 'dist']
-    if ignored_file_types is None:
-        ignored_file_types = ['.zip', '.rar', '.ipa', '.mobileprovision']
+def scan_directory(directory, swear_words, ignored_dirs_file='ignored_dirs.txt', ignored_file_types_file='ignored_file_types.txt'):
+    with open(ignored_dirs_file, 'r') as f:
+        ignored_dirs = [line.strip() for line in f]
+    with open(ignored_file_types_file, 'r') as f:
+        ignored_file_types = [line.strip() for line in f]
 
+    # rest of your code
     total_matches = 0
 
     for root, _, files in os.walk(directory):
@@ -50,10 +51,10 @@ def scan_directory(directory, swear_words, ignored_dirs=None, ignored_file_types
             total_matches += matches_found
 
     if total_matches:
-        print(f'  {BOLD}{total_matches} offenders found in total.{ENDC}')
+        print(f'{BOLD}{total_matches} offenders found in total.{ENDC}')
 
 def main():
-    swear_words_file = 'swear_words.txt'  # Assumes this file is in the same directory as the script
+    swear_words_file = 'swear_words.txt' 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     swear_words_path = os.path.join(script_dir, swear_words_file)
     swear_words = load_swear_words(swear_words_path)
@@ -62,7 +63,9 @@ def main():
         print(f"No swear words loaded from {swear_words_file}. Please check the file.")
         return
 
-    scan_directory('.', swear_words)
+
+
+    scan_directory('.', swear_words, ignored_dirs_file=os.path.join(script_dir, 'ignored_dirs.txt'), ignored_file_types_file=os.path.join(script_dir, 'ignored_file_types.txt'))
 
 if __name__ == "__main__":
     main()
