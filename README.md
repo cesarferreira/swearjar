@@ -1,6 +1,6 @@
 <p align="center"><img width="100%"src="assets/screenshot.png"></p>
 <h1 align="center">SwearJar</h1>
-<p align="center">Static analysis tool that scans your code for swear words</p>
+<p align="center">⚡ Static analysis tool that scans your code for swear words</p>
 <!-- <p align="center">
   <a href="https://travis-ci.org/cesarferreira/drone"><img src="https://travis-ci.org/cesarferreira/drone.svg?branch=master" alt="Build Status"></a>
   <a href="https://www.npmjs.com/package/drone"><img src="https://img.shields.io/npm/dt/drone.svg" alt="npm"></a>
