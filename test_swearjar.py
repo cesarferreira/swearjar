@@ -2,27 +2,27 @@ import unittest
 from unittest.mock import patch, mock_open
 import swearjar
 
-class TestSwearWordChecker(unittest.TestCase):
+class TestSwearJar(unittest.TestCase):
 
-    # Class variable, accessible in decorators
-    test_data = "This is a test line with badword1.\nThis is a clean line.\nAnother badword2 here.\n"
+    fake_swear_words = ['fakebadword1', 'fakebadword2']
+    test_data = "This is a test line with fakebadword1.\nThis is a clean line.\nAnother fakebadword2 here.\n"
 
     def setUp(self):
-        # Setup any repeated used variables or mock data here
-        self.swear_words = ['badword1', 'badword2']
+        self.test_data = TestSwearJar.test_data
 
-    @patch('swearjar.open', new_callable=mock_open, read_data="badword1\nbadword2\n")
-    def test_load_swear_words(self, mock_file):
-        # Test loading swear words from file
-        result = swearjar.load_swear_words('fake_path')
-        self.assertEqual(result, self.swear_words)
-
-    @patch('swearjar.open', new_callable=mock_open, read_data=test_data)
-    def test_find_swear_words(self, mock_file):
+    @patch('swearjar.load_swear_words', return_value=fake_swear_words)
+    @patch('builtins.open', new_callable=mock_open, read_data=test_data)
+    def test_find_swear_words(self, mock_file, mock_load_swear_words):
         # Test finding swear words in a file
-        with patch('builtins.print') as mock_print:
-            swearjar.find_swear_words('fake_path', self.swear_words)
-            mock_print.assert_called_with('fake_path:3: Another \x1b[1mbadword2\x1b[0m here.')
+        matches_found = swearjar.find_swear_words('fake_file_path', TestSwearJar.fake_swear_words)
+        self.assertEqual(matches_found, 2)
+
+    @patch('swearjar.load_swear_words', return_value=fake_swear_words)
+    @patch('builtins.open', new_callable=mock_open, read_data="This is a clean line with no swear words.\n")
+    def test_find_swear_words_no_swear_words(self, mock_file, mock_load_swear_words):
+        # Test finding swear words in a file when there are no swear words
+        matches_found = swearjar.find_swear_words('fake_file_path', TestSwearJar.fake_swear_words)
+        self.assertEqual(matches_found, 0)
 
 if __name__ == '__main__':
     unittest.main()
