@@ -37,17 +37,21 @@ def load_swear_words(file_path):
 
 def find_swear_words(file_path, swear_words):
     matches_found = 0
-    with open(file_path, 'r', encoding='utf-8', errors='ignore') as file:
-        lines = file.readlines()
+    if os.path.exists(file_path) and os.path.isfile(file_path):
 
-    for line_number, line in enumerate(lines, 1):
-        for swear_word in swear_words:
-            if swear_word in line.lower():
-                matches_found += 1
-                highlighted_line = re.sub(f'({swear_word})', RED + BOLD + r'\1' + ENDC, line, flags=re.IGNORECASE)
-                relative_path = os.path.relpath(file_path, start='.')
-                print(f'{CYAN}{relative_path}{ENDC}:{BOLD}{line_number}{ENDC}: {highlighted_line.strip()}')
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as file:
+            lines = file.readlines()
 
+        for line_number, line in enumerate(lines, 1):
+            for swear_word in swear_words:
+                if swear_word in line.lower():
+                    matches_found += 1
+                    highlighted_line = re.sub(f'({swear_word})', RED + BOLD + r'\1' + ENDC, line, flags=re.IGNORECASE)
+                    relative_path = os.path.relpath(file_path, start='.')
+                    print(f'{CYAN}{relative_path}{ENDC}:{BOLD}{line_number}{ENDC}: {highlighted_line.strip()}')
+    else:
+        print(f"Skipping {file_path} as it does not exist or is not a regular file.")
+        
     if matches_found:
         print(f'\n  {GREEN}{matches_found} {"offender" if matches_found == 1 else "offenders"} found in {os.path.basename(file_path)}{ENDC}\n')
     return matches_found
