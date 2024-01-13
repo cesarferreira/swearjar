@@ -14,8 +14,9 @@ class TestSwearJar(unittest.TestCase):
     @patch('builtins.open', new_callable=mock_open, read_data=test_data)
     def test_find_swear_words(self, mock_file, mock_load_swear_words):
         # Test finding swear words in a file
-        matches_found = swearjar.find_swear_words('fake_file_path', TestSwearJar.fake_swear_words)
-        self.assertEqual(matches_found, 2)
+        with patch('os.path.exists', return_value=True), patch('os.path.isfile', return_value=True):
+            matches_found = swearjar.find_swear_words('fake_file_path', TestSwearJar.fake_swear_words)
+            self.assertEqual(matches_found, 2)
 
     @patch('swearjar.load_swear_words', return_value=fake_swear_words)
     @patch('builtins.open', new_callable=mock_open, read_data="This is a clean line with no swear words.\n")
